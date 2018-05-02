@@ -1,8 +1,7 @@
 var videoContent = document.getElementById('contentElement')
 
 var adDisplayContainer = new google.ima.AdDisplayContainer(
-  document.getElementById('adContainer'),
-  videoContent);
+  document.getElementById('adContainer'));
 // Must be done as the result of a user action on mobile
 adDisplayContainer.initialize();
 
@@ -66,6 +65,9 @@ function onAdsManagerLoaded(adsManagerLoadedEvent) {
   adsManager.addEventListener(
       google.ima.AdEvent.Type.CONTENT_RESUME_REQUESTED,
       onContentResumeRequested);
+
+  // TODO: install event listeners.
+  // available events: https://developers.google.com/interactive-media-ads/docs/sdks/html5/v3/apis#ima.AdEvent.Type
 
   try {
     // Initialize the ads manager. Ad rules playlist will start at this time.
