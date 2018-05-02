@@ -1,5 +1,4 @@
 var videoContent = document.getElementById('contentElement')
-//videoContent.play()
 
 var adDisplayContainer = new google.ima.AdDisplayContainer(
   document.getElementById('adContainer'),
@@ -78,7 +77,7 @@ function onAdsManagerLoaded(adsManagerLoadedEvent) {
   } catch (adError) {
     // An error may be thrown if there was a problem with the VAST response.
     // Play content here, because we won't be getting an ad.
-    videoContent.play();
+    //videoContent.play();
   }
 }
 
@@ -92,6 +91,7 @@ function onContentPauseRequested() {
 function onContentResumeRequested() {
   // This function is where you should ensure that your UI is ready
   // to play content.
-  videoContent.addEventListener('ended', contentEndedListener);
-  videoContent.play();
+  //videoContent.addEventListener('ended', contentEndedListener);
+  //videoContent.play();
+  contentEndedListener();
 }
