@@ -8,6 +8,8 @@ adDisplayContainer.initialize();
 // Re-use this AdsLoader instance for the entire lifecycle of your page.
 var adsLoader = new google.ima.AdsLoader(adDisplayContainer);
 
+var adsManager;
+
 // Add event listeners
 adsLoader.addEventListener(
     google.ima.AdsManagerLoadedEvent.Type.ADS_MANAGER_LOADED,
@@ -57,6 +59,13 @@ function onAdsManagerLoaded(adsManagerLoadedEvent) {
   adsManager = adsManagerLoadedEvent.getAdsManager(
       videoContent);  // See API reference for contentPlayback
 
+  // 動画再生前に mute された場合はここで反映する。
+  // XXX: ただそれが起こると初回の unmute イベントが飛ばない。
+  if (muteButton.checked) {
+    lastVolume = adsManager.getVolume();
+    adsManager.setVolume(0);
+  }
+
   // Add listeners to the required events.
   adsManager.addEventListener(
       google.ima.AdErrorEvent.Type.AD_ERROR,
@@ -98,4 +107,21 @@ function onContentResumeRequested() {
   //videoContent.addEventListener('ended', contentEndedListener);
   //videoContent.play();
   contentEndedListener();
+}
+
+var muteButton = document.getElementById('muteButton');
+muteButton.addEventListener('click', onMuteClick);
+var lastVolume;
+
+function onMuteClick(e) {
+  if (!adsManager) {
+    console.log("not started yet");
+    return;
+  }
+  if (muteButton.checked) {
+    lastVolume = adsManager.getVolume();
+    adsManager.setVolume(0);
+  } else {
+    adsManager.setVolume(lastVolume);
+  }
 }
