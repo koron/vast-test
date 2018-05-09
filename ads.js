@@ -62,8 +62,7 @@ function onAdsManagerLoaded(adsManagerLoadedEvent) {
   // 動画再生前に mute された場合はここで反映する。
   // XXX: ただそれが起こると初回の unmute イベントが飛ばない。
   if (muteButton.checked) {
-    lastVolume = adsManager.getVolume();
-    adsManager.setVolume(0);
+    mute();
   }
 
   // Add listeners to the required events.
@@ -115,13 +114,21 @@ var lastVolume;
 
 function onMuteClick(e) {
   if (!adsManager) {
-    console.log("not started yet");
+    // AD not started yet
     return;
   }
   if (muteButton.checked) {
-    lastVolume = adsManager.getVolume();
-    adsManager.setVolume(0);
+    mute();
   } else {
-    adsManager.setVolume(lastVolume);
+    unmute();
   }
+}
+
+function mute() {
+  lastVolume = adsManager.getVolume();
+  adsManager.setVolume(0);
+}
+
+function unmute() {
+  adsManager.setVolume(lastVolume);
 }
