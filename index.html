@@ -14,7 +14,15 @@
       <div id="adContainer"></div>
     </div>
     <button id="playButton">Play</button>
-    <input type="checkbox" id="muteButton"><label for="muteButton">Mute</label>
+    <label for="muteButton">Mute</label><input type="checkbox" id="muteButton">
+    <label for="bitrate">Bitrate</label>
+    <select id="bitrate">
+      <option value="">(none)</option>
+      <option value="100">100kbps</option>
+      <option value="300">300kbps</option>
+      <option value="900">900kbps</option>
+      <option value="1000">1000kbps</option>
+    </select>
     <script type="text/javascript" src="//imasdk.googleapis.com/js/sdkloader/ima3.js"></script>
     <script type="text/javascript" src="ads.js"></script>
   </body>

@@ -40,6 +40,8 @@ adsRequest.adTagUrl = 'https://pubads.g.doubleclick.net/gampad/ads?' +
 
 adsRequest.adTagUrl = 'https://vast.ladsp.com/vast20.xml?p=1&cm=TYbJSVeqPvbIRSafMiyQhI9fHLC31jF0A8VjmGzcmVDDVhUrdYBP0BQF5D-iieQcJSC3M-yzoKq9w5IQl3pFLcoUmn7xGruviWT8m7vqwJhvpaqUAZFKEBsPc_o9aM9qrBdJI6e0l4qnltiF8tmJ-tyVoRAevb8jYkCaW-JxzR2lSdYyy9AflyehrT4BrTgE7v0cj-Je9ZvZBLOKav6lB8TGkPAYTyjntxe3ebE9UmYJXUXCWZaRRVvPBEmWnqgrCIS2yYfBhXPrwVk6CDQg_1ZgRTvudtLxZnoXjhneq7gqCzcnxk-6TC_vWpFiZpHhtNV1V0l3pzaeQT-KQYDwPMWPAl68csW_CUquclZ8zndEUvet1EZ9BmX0LsTvEci4VP-QlWN_MspXUD8fdfx3s_Kf4IkFMRdIFzd8A74rLylUQHFANfdCfEELH0nAz01enLd7ObZXg1n65AvSBreEdS4HS6Q8u7g2RAbpIFM4JKw&m=AUpo9zi9_NUc3ABBKc0ndc0neM0newoBzSd7zwAAAAH8Kzw5AMDAt2h0dHA6Ly93d3cubG9naWNhZC5jb20vAbEyNjIxMDY5NjY5ODEzOTM0Nr4wbGpTQU5xYzFObWpnRmh3ZDdTTGd3RUNzMklSeHfPAAABArNiEccJuGh0dHA6Ly93d3cuc28tbmV0Lm5lLmpwL6DM-s0BLAHPAAAJGE5yn__DAc4AD0KYlJLOAA9Clco_AAAAks4AD0KWyj6ZmZqSzgAPQpfKPhmZmpLOAA9CmMo9TMzNHs8AAAkYTnKf_6JqYc4AARcwwwEBzQRwzQKABKLqAQEBwKZkZWFsSWTNJw_NIrgBAQEBAQEBFRbDzSd2w8KTAQIDAKMxMjN7ozEyMwrNHmHNA3o&wp=&gc='
 
+adsRequest.adTagUrl = 'https://files.kaoriya.net/var/vast20.xml'
+
 // Specify the linear and nonlinear slot sizes. This helps the SDK to
 // select the correct creative if multiple are returned.
 adsRequest.linearAdSlotWidth = 640;
@@ -55,15 +57,15 @@ function requestAds() {
 }
 
 function onAdsManagerLoaded(adsManagerLoadedEvent) {
+  var settings = new google.ima.AdsRenderingSettings();
+  var rate = getBitrate();
+  if (rate > 0) {
+    settings.bitrate = rate
+  }
+
   // Get the ads manager.
   adsManager = adsManagerLoadedEvent.getAdsManager(
-      videoContent);  // See API reference for contentPlayback
-
-  // 動画再生前に mute された場合はここで反映する。
-  // XXX: ただそれが起こると初回の unmute イベントが飛ばない。
-  if (muteButton.checked) {
-    mute();
-  }
+      videoContent, settings);  // See API reference for contentPlayback
 
   // Add listeners to the required events.
   adsManager.addEventListener(
@@ -76,7 +78,12 @@ function onAdsManagerLoaded(adsManagerLoadedEvent) {
       google.ima.AdEvent.Type.CONTENT_RESUME_REQUESTED,
       onContentResumeRequested);
 
-  // TODO: install event listeners.
+  // 動画再生前に mute された場合はここ(STARTEDイベントリスナ)で反映する。
+  adsManager.addEventListener(
+      google.ima.AdEvent.Type.STARTED,
+      function() { if (muteButton.checked) { mute(); } });
+
+  // TODO: install other event listeners.
   // available events: https://developers.google.com/interactive-media-ads/docs/sdks/html5/v3/apis#ima.AdEvent.Type
 
   try {
@@ -131,4 +138,9 @@ function mute() {
 
 function unmute() {
   adsManager.setVolume(lastVolume);
+}
+
+function getBitrate() {
+  var el = document.getElementById('bitrate')
+  return el.item(el.selectedIndex).value - 0
 }
