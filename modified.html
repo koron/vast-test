@@ -1,0 +1,29 @@
+<html>
+  <head>
+    <title>IMA HTML5 Simple Demo</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
+  </head>
+
+  <body>
+    <a href="https://github.com/koron/vast-test"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_gray_6d6d6d.png" alt="Fork me on GitHub"></a>
+    <div id="mainContainer">
+      <div id="content">
+        <video id="contentElement">
+        </video>
+      </div>
+      <div id="adContainer"></div>
+    </div>
+    <button id="playButton">Play</button>
+    <label for="muteButton">Mute</label><input type="checkbox" id="muteButton">
+    <label for="bitrate">Bitrate</label>
+    <select id="bitrate">
+      <option value="">(none)</option>
+      <option value="100">100kbps</option>
+      <option value="300">300kbps</option>
+      <option value="900">900kbps</option>
+      <option value="1000">1000kbps</option>
+    </select>
+    <script type="text/javascript" src="//imasdk.googleapis.com/js/sdkloader/ima3.js"></script>
+    <script type="text/javascript" src="ads.js"></script>
+  </body>
+</html>
