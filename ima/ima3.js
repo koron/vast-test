@@ -14199,7 +14199,7 @@
         this.G = "goog_" + Bc++;
         this.A = new uo;
         var c = this.G
-          , d = (ue() ? "https:" : "http:") + Vt("/ima/bridge3.355.3_en.html", V.A);
+          , d = (ue() ? "https:" : "http:") + Vt("./ima/bridge3.355.3_en.html", V.A);
         a: {
             var e = window;
             try {
