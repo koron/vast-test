@@ -14199,7 +14199,7 @@
         this.G = "goog_" + Bc++;
         this.A = new uo;
         var c = this.G
-          , d = (ue() ? "https:" : "http:") + Vt("//imasdk.googleapis.com/js/core/bridge3.355.3_%s.html", V.A);
+          , d = (ue() ? "https:" : "http:") + Vt("/ima/bridge3.355.3_en.html", V.A);
         a: {
             var e = window;
             try {
@@ -15817,8 +15817,8 @@
                     b = c;
                     break
                 }
-            if (null == b)
-                throw Error("IMA SDK is either not loaded from a google domain or is not a supported version.");
+            //if (null == b)
+            //    throw Error("IMA SDK is either not loaded from a google domain or is not a supported version.");
         }
     }
     )();
