@@ -3284,7 +3284,8 @@
         null != a && mg(this.g, "c", a)
     };
     J.prototype.F = function() {
-        this.g.F()
+        // disable to access `csi.gstatic.com`
+        //this.g.F()
     }
     ;
     var wg = function(a, b, c) {
@@ -15642,7 +15643,8 @@
                     } catch (g) {}
                 }
                   , c = Xu[1];
-                b(c);
+                // disable to access `adservice.google.com/adsid/integrator.js`
+                //b(c);
                 ".google.com" != c && b(".google.com");
                 b = {};
                 var d = (b.newToken = "FBT",
@@ -15839,6 +15841,7 @@
                 a.g = b || null;
                 a.g && (a.D.T(a.g, "activityMonitor", a.F),
                 qs(a));
+                /* disable to access `s0.2mdn.net/instream/video/client.js`
                 if (!(q.ima && q.ima.video && q.ima.video.client && q.ima.video.client.tagged)) {
                     r("ima.video.client.sdkTag", !0, void 0);
                     var c = q.document;
@@ -15850,6 +15853,7 @@
                     c = c.getElementsByTagName("script")[0];
                     c.parentNode.insertBefore(b, c)
                 }
+                */
                 b = xr();
                 ni(b);
                 $n.B().K = V.g;
