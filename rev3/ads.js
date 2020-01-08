@@ -139,3 +139,5 @@ function getBitrate() {
   var el = document.getElementById('bitrate')
   return el.item(el.selectedIndex).value - 0
 }
+
+requestAds();
