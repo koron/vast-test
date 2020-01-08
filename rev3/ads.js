@@ -140,4 +140,4 @@ function getBitrate() {
   return el.item(el.selectedIndex).value - 0
 }
 
-requestAds();
+setTimeout(requestAds, 1000);
