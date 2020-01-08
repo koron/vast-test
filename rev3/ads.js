@@ -42,6 +42,7 @@ adsRequest.linearAdSlotWidth = 640;
 adsRequest.linearAdSlotHeight = 400;
 adsRequest.nonLinearAdSlotWidth = 640;
 adsRequest.nonLinearAdSlotHeight = 150;
+adsRequest.setAdWillAutoPlay(true);
 
 var playButton = document.getElementById('playButton');
 playButton.addEventListener('click', requestAds);
