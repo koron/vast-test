@@ -34,7 +34,7 @@ videoContent.onended = contentEndedListener;
 // Request video ads.
 var adsRequest = new google.ima.AdsRequest();
 
-adsRequest.adTagUrl = 'https://files.kaoriya.net/var/vast20.xml'
+adsRequest.adTagUrl = 'https://koron.github.io/vast-test/vast/pixabay-7515.xml'
 
 // Specify the linear and nonlinear slot sizes. This helps the SDK to
 // select the correct creative if multiple are returned.
