@@ -1,0 +1,98 @@
+<html>
+<head>
+<title>Ad Player</title>
+<link rel="shortcut icon" href="data:image/x-icon;," type="image/x-icon">
+<style type="text/css">
+#mainContainer {
+  position: relative;
+  width: 640px;
+  height: 360px;
+}
+#content {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  width: 640px;
+  height: 360px;
+}
+#mediaElement {
+  width: 640px;
+  height: 360px;
+  background-color: #fff8f8;
+}
+</style>
+<script type="text/javascript">
+(function(w){
+
+const events = [
+  [0.25, function() {
+    console.log('video.timeupdate: 25%')
+  }],
+  [0.50, function() {
+    console.log('video.timeupdate: 50%')
+  }],
+  [0.75, function() {
+    console.log('video.timeupdate: 75%')
+  }],
+  [1.0, function() {
+    console.log('video.timeupdate: 100%')
+  }],
+]
+
+w.onload = function(ev) {
+  const d = w.document
+
+  const me = d.getElementById('mediaElement')
+  const mb = d.getElementById('muteButton')
+  const pi = d.getElementById('playingIndicator')
+
+  me.addEventListener('click', function() {
+    if (!me.paused) {
+      me.pause()
+      pi.checked = false
+      console.log('vido.click: paused', 'TODO: ClickThrough')
+    } else {
+      me.play()
+      pi.checked = true
+      console.log('vido.click: resumed')
+    }
+  })
+  mb.addEventListener('change', function() {
+    me.muted = mb.checked
+    if (me.muted) {
+      console.log('mute.change: muted')
+    } else {
+      console.log('mute.change: unmuted')
+    }
+  })
+  me.addEventListener('timeupdate', function() {
+    let frac = me.currentTime / me.duration
+    //console.log('fraction', frac)
+    while (events.length > 0 && frac >= events[0][0]) {
+      events.shift()[1]()
+    }
+  })
+  me.play()
+}
+})(window)
+</script>
+</head>
+  <body>
+    <a href="https://github.com/koron/vast-test"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_gray_6d6d6d.png" alt="Fork me on GitHub"></a>
+    <div id="mainContainer">
+      <div id="content">
+        <video id="mediaElement" muted>
+          <source src="https://koron.github.io/vast-test/vast/pixabay-7515.mp4" type="video/mp4">
+        </video>
+      </div>
+    </div>
+    <label for="playingIndicator">Playing</label><input type="checkbox" id="playingIndicator" checked disabled>
+    <label for="muteButton">Mute</label><input type="checkbox" id="muteButton" checked>
+    <ul>
+      <li><a href="../">Regular version</a>
+      <li><a href="../modified.html">Modified version: hide "Learn More" link</a>
+      <li><a href="../rev3">Revision #3</a>
+      <li><a href=".">Revision #4 (this)</a>
+    </ul>
+  </body>
+</html>
