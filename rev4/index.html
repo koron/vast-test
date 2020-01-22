@@ -18,7 +18,6 @@
 #mediaElement {
   width: 640px;
   height: 360px;
-  background-color: #fff8f8;
 }
 </style>
 <script type="text/javascript">
@@ -43,42 +42,70 @@ w.onload = function(ev) {
   const d = w.document
 
   const me = d.getElementById('mediaElement')
-  const mb = d.getElementById('muteButton')
-  const pi = d.getElementById('playingIndicator')
+  const mr = d.getElementById('muteRequest')
+  const pr = d.getElementById('pauseRequest')
+  const vi = d.getElementById('visibleIndicator')
+
+  let visible = false
+  function updatePlayPause() {
+    if (me.ended) {
+      return
+    }
+    if (!pr.checked && visible) {
+      me.play()
+    } else {
+      me.pause()
+    }
+  }
 
   me.addEventListener('click', function() {
+    console.log('video.click:', 'TODO: ClickThrough')
     if (!me.paused) {
-      me.pause()
-      pi.checked = false
-      console.log('vido.click: paused', 'TODO: ClickThrough')
-    } else {
-      me.play()
-      pi.checked = true
-      console.log('vido.click: resumed')
+      console.log('video.click:', 'force paused')
+      pr.checked = true
+      updatePlayPause()
     }
   })
-  mb.addEventListener('change', function() {
-    me.muted = mb.checked
+  me.addEventListener('timeupdate', function() {
+    let frac = me.currentTime / me.duration
+    while (events.length > 0 && frac >= events[0][0]) {
+      events.shift()[1]()
+    }
+  })
+  mr.addEventListener('change', function() {
+    me.muted = mr.checked
     if (me.muted) {
       console.log('mute.change: muted')
     } else {
       console.log('mute.change: unmuted')
     }
   })
-  me.addEventListener('timeupdate', function() {
-    let frac = me.currentTime / me.duration
-    //console.log('fraction', frac)
-    while (events.length > 0 && frac >= events[0][0]) {
-      events.shift()[1]()
+  pr.addEventListener('change', function() {
+    if (pr.checked) {
+      console.log('pause.change: paused')
+    } else {
+      console.log('pause.change: unpaused')
     }
+    updatePlayPause()
   })
-  me.play()
+
+  new IntersectionObserver(function(entries, observer) {
+    if (entries.length == 0) {
+      return
+    }
+    visible = entries[0].intersectionRatio >= 0.5
+    if (vi) {
+      vi.checked = visible
+    }
+    updatePlayPause()
+  }, { "threshold": 0.5 }).observe(me)
 }
 })(window)
 </script>
 </head>
   <body>
     <a href="https://github.com/koron/vast-test"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_gray_6d6d6d.png" alt="Fork me on GitHub"></a>
+    <div style="height: 100vh"></div>
     <div id="mainContainer">
       <div id="content">
         <video id="mediaElement" muted>
@@ -86,13 +113,22 @@ w.onload = function(ev) {
         </video>
       </div>
     </div>
-    <label for="playingIndicator">Playing</label><input type="checkbox" id="playingIndicator" checked disabled>
-    <label for="muteButton">Mute</label><input type="checkbox" id="muteButton" checked>
+
+    <!-- #muteRequest checkbox, MANDATORY -->
+    <label for="muteRequest">Mute</label><input type="checkbox" id="muteRequest" checked>
+
+    <!-- #pauseRequest checkbox, MANDATORY -->
+    <label for="pauseRequest">Pause</label><input type="checkbox" id="pauseRequest">
+
+    <!-- #visibleIndicator checkbox, OPTIONAL: indicates over 50% visibility of video element -->
+    <label for="visibleIndicator">Visible 50%</label><input type="checkbox" id="visibleIndicator" disabled>
+
     <ul>
       <li><a href="../">Regular version</a>
       <li><a href="../modified.html">Modified version: hide "Learn More" link</a>
       <li><a href="../rev3">Revision #3</a>
       <li><a href=".">Revision #4 (this)</a>
     </ul>
+    <div style="height: 100vh"></div>
   </body>
 </html>
