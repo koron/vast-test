@@ -12,7 +12,7 @@ const eventURLs = {
   unmute: '',
   pause: '',
   resume: '',
-  clickThrough: '',
+  clickThrough: 'http://vast.ladsp.com/viclk?c=AYcGCysSAcfvCUlfl_36HWGjJMHlxYSgMJ0RhsHQaaoI2mKIarp2rv93JgrjrgUcQefxCnA5wiYJ-Do11--jkF_DRqIsTQ1metlQEopG7SEycEoY4oFt_9XBRQEAzVH6A4RNGhqrIQTiz6F4AcQakASFi_H-fqVaux_-ARAPK4SX-U0OwoUDspE5vDi6cCmU0g&m=AWr07X0srKdo3AC9wMDPAAABY2bXQXbAKc0ndc0nds0neM0ne80newbAwLdodHRwOi8vd3d3LmxvZ2ljYWQuY29tL8AAsTI2MjEwNjk2Njk4MTM5MzQ2vjBsalNBTnFjMU5tamdGaHdkN1NMZ3dFQ3MySVJ4d88AAAECs2IRx8DAwMAJuGh0dHA6Ly93d3cuc28tbmV0Lm5lLmpwL6DApzMwMHgyNTChMcDPAAAJGE5yn__Aw8ABwJSSzgAPQpXKPwAAAJLOAA9Clso-mZmaks4AD0KXyj4ZmZqSzgAPQpjKPUzMzR7PAAAJGE5yn_-iamHOAAEXMMMBAc0EcM0CgMABAcDAwMDAwMDAwKQ4NjgxrTExOC4yNDEuMTk4LjPAwKZkZWFsSWTNJw_NIrjAoVIBAQEBAQEVwMPAwMDAwMDAwMDAwMPCkwECAwDAe8DAwKMxMjMKzR5hAsDNA3rAwK5hZHNlcnZlcjMxLVZQQ65hZHNlcnZlcjMxLVZQQ8DAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAAMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwNoAPmh0dHA6Ly9ldmVudC5sb2dpY2FkLmpwL3Zhc3QvdmFzdF94bWwvMTAxMDEvMTAxMDIvMTAxMDQvMTAxMDcvwMDAwA',
   clickTracking: '',
 }
 
@@ -23,6 +23,11 @@ function invokeEvent(name) {
     return
   }
   console.log('INVOKE.event:', name)
+  if (name === 'clickThrough') {
+    let win = window.open(u, '_blank')
+    win.focus()
+    return
+  }
   fetch(u) // XXX: IE doesn't support fetch.
 }
 
