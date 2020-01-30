@@ -157,4 +157,25 @@ w.onload = function(ev) {
     updatePlayPause()
   }, { "threshold": 0.5 }).observe(me)
 }
+
+function vast2load(u) {
+  console.log('vast2.load:', u)
+  let req = new XMLHttpRequest()
+  req.addEventListener("load", vast2onload)
+  req.open('GET', u)
+  req.send()
+}
+
+function vast2onload(ev) {
+  let bps = ev.loaded * 1000 / ev.timeStamp
+  let dom = ev.target.responseXML
+  w.vast2.dom = dom
+  // TODO: parse `dom` as VAST2.0
+  // TODO: choose media by `bps` set to HTTPMediaElement.
+  console.log('vast2.onload:', bps, dom)
+}
+
+w.vast2 = {
+  load: vast2load,
+}
 })(window)
