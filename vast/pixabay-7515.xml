@@ -32,8 +32,10 @@
               <ClickThrough><![CDATA[http://vast.ladsp.com/viclk?c=AYcGCysSAcfvCUlfl_36HWGjJMHlxYSgMJ0RhsHQaaoI2mKIarp2rv93JgrjrgUcQefxCnA5wiYJ-Do11--jkF_DRqIsTQ1metlQEopG7SEycEoY4oFt_9XBRQEAzVH6A4RNGhqrIQTiz6F4AcQakASFi_H-fqVaux_-ARAPK4SX-U0OwoUDspE5vDi6cCmU0g&m=AWr07X0srKdo3AC9wMDPAAABY2bXQXbAKc0ndc0nds0neM0ne80newbAwLdodHRwOi8vd3d3LmxvZ2ljYWQuY29tL8AAsTI2MjEwNjk2Njk4MTM5MzQ2vjBsalNBTnFjMU5tamdGaHdkN1NMZ3dFQ3MySVJ4d88AAAECs2IRx8DAwMAJuGh0dHA6Ly93d3cuc28tbmV0Lm5lLmpwL6DApzMwMHgyNTChMcDPAAAJGE5yn__Aw8ABwJSSzgAPQpXKPwAAAJLOAA9Clso-mZmaks4AD0KXyj4ZmZqSzgAPQpjKPUzMzR7PAAAJGE5yn_-iamHOAAEXMMMBAc0EcM0CgMABAcDAwMDAwMDAwKQ4NjgxrTExOC4yNDEuMTk4LjPAwKZkZWFsSWTNJw_NIrjAoVIBAQEBAQEVwMPAwMDAwMDAwMDAwMPCkwECAwDAe8DAwKMxMjMKzR5hAsDNA3rAwK5hZHNlcnZlcjMxLVZQQ65hZHNlcnZlcjMxLVZQQ8DAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAAMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwNoAPmh0dHA6Ly9ldmVudC5sb2dpY2FkLmpwL3Zhc3QvdmFzdF94bWwvMTAxMDEvMTAxMDIvMTAxMDQvMTAxMDcvwMDAwA]]></ClickThrough>
             </VideoClicks>
             <MediaFiles>
-              <MediaFile id="200001" delivery="progressive" type="video/mp4" width="1280" height="720" bitrate="123" scalable="true" mantainAspectRatio="true"><![CDATA[https://koron.github.io/vast-test/vast/pixabay-7515.mp4]]></MediaFile>
-              </MediaFiles>
+              <MediaFile id="200001" delivery="progressive" type="video/mp4" width="1280" height="720" bitrate="100" scalable="true" mantainAspectRatio="true"><![CDATA[https://koron.github.io/vast-test/vast/pixabay-7515.mp4]]></MediaFile>
+              <MediaFile id="200002" delivery="progressive" type="video/mp4" width="1280" height="720" bitrate="300" scalable="true" mantainAspectRatio="true"><![CDATA[https://koron.github.io/vast-test/vast/pixabay-7515.mp4]]></MediaFile>
+              <MediaFile id="200003" delivery="progressive" type="video/mp4" width="1280" height="720" bitrate="900" scalable="true" mantainAspectRatio="true"><![CDATA[https://koron.github.io/vast-test/vast/pixabay-7515.mp4]]></MediaFile>
+            </MediaFiles>
           </Linear>
         </Creative>
         </Creatives>

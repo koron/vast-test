@@ -1,8 +1,9 @@
 (function(w){
 
 const eventURLs = {
+  error: '',
   impression: '',
-  creativeView: 'https://vast.ladsp.com/vie?ev=creative_view&c=AYcGCysSAcfvCUlfl_36HWGjJMHlxYSgMJ0RhsHQaaoI2mKIarp2rv93JgrjrgUcQefxCnA5wiYJ-Do11--jkF_DRqIsTQ1metlQEopG7SEycEoY4oFt_9XBRQEAzVH6A4RNGhqrIQTiz6F4AcQakASFi_H-fqVaux_-ARAPK4SX-U0OwoUDspE5vDi6cCmU0g&m=AWr07X0srKdo3AC9wMDPAAABY2bXQXbAKc0ndc0nds0neM0ne80newbAwLdodHRwOi8vd3d3LmxvZ2ljYWQuY29tL8AAsTI2MjEwNjk2Njk4MTM5MzQ2vjBsalNBTnFjMU5tamdGaHdkN1NMZ3dFQ3MySVJ4d88AAAECs2IRx8DAwMAJuGh0dHA6Ly93d3cuc28tbmV0Lm5lLmpwL6DApzMwMHgyNTChMcDPAAAJGE5yn__Aw8ABwJSSzgAPQpXKPwAAAJLOAA9Clso-mZmaks4AD0KXyj4ZmZqSzgAPQpjKPUzMzR7PAAAJGE5yn_-iamHOAAEXMMMBAc0EcM0CgMABAcDAwMDAwMDAwKQ4NjgxrTExOC4yNDEuMTk4LjPAwKZkZWFsSWTNJw_NIrjAoVIBAQEBAQEVwMPAwMDAwMDAwMDAwMPCkwECAwDAe8DAwKMxMjMKzR5hAsDNA3rAwK5hZHNlcnZlcjMxLVZQQ65hZHNlcnZlcjMxLVZQQ8DAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAAMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwNoAPmh0dHA6Ly9ldmVudC5sb2dpY2FkLmpwL3Zhc3QvdmFzdF94bWwvMTAxMDEvMTAxMDIvMTAxMDQvMTAxMDcvwMDAwA&sg=d478f5f61b68e8f2b6bbd867c10015a4e8daea4b',
+  creativeView: '',
   start: '',
   firstQuartile: '',
   midpoint: '',
@@ -12,17 +13,25 @@ const eventURLs = {
   unmute: '',
   pause: '',
   resume: '',
-  clickThrough: 'http://vast.ladsp.com/viclk?c=AYcGCysSAcfvCUlfl_36HWGjJMHlxYSgMJ0RhsHQaaoI2mKIarp2rv93JgrjrgUcQefxCnA5wiYJ-Do11--jkF_DRqIsTQ1metlQEopG7SEycEoY4oFt_9XBRQEAzVH6A4RNGhqrIQTiz6F4AcQakASFi_H-fqVaux_-ARAPK4SX-U0OwoUDspE5vDi6cCmU0g&m=AWr07X0srKdo3AC9wMDPAAABY2bXQXbAKc0ndc0nds0neM0ne80newbAwLdodHRwOi8vd3d3LmxvZ2ljYWQuY29tL8AAsTI2MjEwNjk2Njk4MTM5MzQ2vjBsalNBTnFjMU5tamdGaHdkN1NMZ3dFQ3MySVJ4d88AAAECs2IRx8DAwMAJuGh0dHA6Ly93d3cuc28tbmV0Lm5lLmpwL6DApzMwMHgyNTChMcDPAAAJGE5yn__Aw8ABwJSSzgAPQpXKPwAAAJLOAA9Clso-mZmaks4AD0KXyj4ZmZqSzgAPQpjKPUzMzR7PAAAJGE5yn_-iamHOAAEXMMMBAc0EcM0CgMABAcDAwMDAwMDAwKQ4NjgxrTExOC4yNDEuMTk4LjPAwKZkZWFsSWTNJw_NIrjAoVIBAQEBAQEVwMPAwMDAwMDAwMDAwMPCkwECAwDAe8DAwKMxMjMKzR5hAsDNA3rAwK5hZHNlcnZlcjMxLVZQQ65hZHNlcnZlcjMxLVZQQ8DAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAAMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwNoAPmh0dHA6Ly9ldmVudC5sb2dpY2FkLmpwL3Zhc3QvdmFzdF94bWwvMTAxMDEvMTAxMDIvMTAxMDQvMTAxMDcvwMDAwA',
+  clickThrough: '',
   clickTracking: '',
+}
+
+let eventlogEnable = false
+
+function eventlog() {
+  if (eventlogEnable) {
+    console.log.apply(console, arguments)
+  }
 }
 
 function invokeEvent(name) {
   let u = eventURLs[name]
   if (!u) {
-    console.log('INVOKE.event:', 'no url:', name)
+    eventlog('INVOKE.event:', 'no url:', name)
     return
   }
-  console.log('INVOKE.event:', name)
+  eventlog('INVOKE.event:', name)
   if (name === 'clickThrough') {
     let win = window.open(u, '_blank')
     win.focus()
@@ -76,12 +85,15 @@ const fractionEvents = [
   }],
 ]
 
+function warnlog() {
+  console.warn.apply(console, arguments)
+}
+
 function dbglog() {
   //console.log.apply(console, arguments)
 }
 
-w.onload = function(ev) {
-  events.impression()
+function setupAd() {
 
   const d = w.document
 
@@ -158,21 +170,131 @@ w.onload = function(ev) {
   }, { "threshold": 0.5 }).observe(me)
 }
 
-function vast2load(u) {
-  console.log('vast2.load:', u)
+function vast2load(u, eventlogFlag) {
+  dbglog('vast2.load:', u)
   let req = new XMLHttpRequest()
   req.addEventListener("load", vast2onload)
   req.open('GET', u)
   req.send()
+  if (!!eventlogFlag) {
+    eventlogEnable = true
+  }
 }
 
 function vast2onload(ev) {
-  let bps = ev.loaded * 1000 / ev.timeStamp
+  let kbps = ev.loaded * 1000 / ev.timeStamp / 1000
   let dom = ev.target.responseXML
+  dbglog('vast2.onload:', kbps, dom)
   w.vast2.dom = dom
-  // TODO: parse `dom` as VAST2.0
-  // TODO: choose media by `bps` set to HTTPMediaElement.
-  console.log('vast2.onload:', bps, dom)
+  parseEvents(eventURLs, dom)
+  media = chooseMedia(dom, kbps)
+  if (!media) {
+    warnlog('no medias chosen')
+    invokeEvent('error')
+  }
+
+  const me = w.document.getElementById('mediaElement')
+  me.addEventListener('canplaythrough', function() {
+    setupAd()
+  })
+  me.onerror = function(ev) {
+    warnlog('mediaElement.onerror:', ev)
+    invokeEvent('error')
+  }
+
+  // set media to HTTPMediaElement.
+  me.src = media.url
+  dbglog('  kbps', kbps)
+  dbglog('  chosen media', media)
+
+  events.impression()
+}
+
+// chooseMedia chooses a media which match with connection speed.
+function chooseMedia(dom, kbps) {
+  let files = dom.querySelector('MediaFiles')
+  if (!files) {
+    return null
+  }
+  let medias = Array.from(files.querySelectorAll('MediaFile')).map(toMedia).sort(mediaCompare)
+  w.vast2.medias = medias
+  if (medias.length == 0) {
+    return null
+  }
+  hit = medias[0]
+  for (let i = 1; i < medias.length; i++) {
+    if (kbps >= medias[i].bitrate) {
+      hit = medias[i]
+    }
+  }
+  w.vast2.hitMedia = hit
+  return hit
+}
+
+function mediaCompare(a, b) {
+  if (a.bitrate < b.bitrate) {
+    return -1
+  }
+  if (a.bitrate > b.bitrate) {
+    return 1
+  }
+  if (a.index < b.index) {
+    return -1
+  }
+  return 1
+}
+
+let mediaIndex = 0
+
+function toMedia(mf) {
+  id = getAttrStr(mf, 'id')
+  width = getAttrInt(mf, 'width', -1)
+  height = getAttrInt(mf, 'height', -1)
+  bitrate = getAttrInt(mf, 'bitrate', -1)
+  url = mf.textContent
+  return {
+    index: mediaIndex++,
+    id: id,
+    width: width,
+    height: height,
+    bitrate: bitrate,
+    url: url,
+  }
+}
+
+function getAttrInt(el, name, defval) {
+  let n = parseInt(getAttrStr(el, name), 10)
+  return isNaN(n) ? defval : n
+}
+
+function getAttrStr(el, name) {
+  if (!el.hasAttribute(name)) {
+    return ''
+  }
+  return el.getAttribute(name)
+}
+
+// parseEvents parses `dom` as VAST2.0 events
+function parseEvents(events, dom) {
+  events['error'] = queryTextContent(dom, 'Error')
+  events['impression'] = queryTextContent(dom, 'Impression')
+  events['creativeView'] = queryTextContent(dom, "Tracking[event='creativeView']")
+  events['start'] = queryTextContent(dom, "Tracking[event='start']")
+  events['firstQuartile'] = queryTextContent(dom, "Tracking[event='firstQuartile']")
+  events['midpoint'] = queryTextContent(dom, "Tracking[event='midpoint']")
+  events['thirdQuartile'] = queryTextContent(dom, "Tracking[event='thirdQuartile']")
+  events['complete'] = queryTextContent(dom, "Tracking[event='complete']")
+  events['mute'] = queryTextContent(dom, "Tracking[event='mute']")
+  events['unmute'] = queryTextContent(dom, "Tracking[event='unmute']")
+  events['pause'] = queryTextContent(dom, "Tracking[event='pause']")
+  events['resume'] = queryTextContent(dom, "Tracking[event='resume']")
+  events['clickThrough'] = queryTextContent(dom, 'ClickThrough')
+  events['clickTracking'] = queryTextContent(dom, 'ClickTracking')
+}
+
+function queryTextContent(dom, query) {
+  let n = dom.querySelector(query)
+  return !!n ? n.textContent : ''
 }
 
 w.vast2 = {
