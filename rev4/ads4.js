@@ -82,6 +82,9 @@ const fractionEvents = [
   [1.0, function() {
     dbglog('video.timeupdate: 100%')
     events.complete()
+    if (w.vast2.oncomplete) {
+      w.vast2.oncomplete(w.vast2)
+    }
   }],
 ]
 

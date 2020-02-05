@@ -4,9 +4,12 @@
 
 *   Add elements
     *   `<video id="mediaElement" muted>` : Ad video play area.
-    *   `<input id="muteRequest" type="checkbox" checked>` : Mute request checkbox, default `checked`.
-    *   `<input id="pauseRequest" type="checkbox">` : Pause request checkbox, default no `checked`.
-    *   Optional: `<input id="visibleIndicator" type="checkbox">` : Indicate video area visible over 50%.
+    *   `<input id="muteRequest" type="checkbox" checked>` : Mute request
+        checkbox, default `checked`.
+    *   `<input id="pauseRequest" type="checkbox">` : Pause request checkbox,
+        default no `checked`.
+    *   Optional: `<input id="visibleIndicator" type="checkbox">` : Indicate
+        video area visible over 50%.
 
 *   Add codes (`<script>` elements)
 
@@ -29,3 +32,5 @@ See <./index.html> as example.
 *   `vast2.dom` : VAST2.0 document which loaded.
 *   `vast2.medias` : Array of summaries of `<MediaFile>`.
 *   `vast2.hitMedia` : Media information which was chosen.
+*   `vast2.oncomplete` : A callback function which be called when played AD
+    video all, optional.

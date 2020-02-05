@@ -48,6 +48,9 @@
     <div style="height: 100vh"></div>
     <script type="text/javascript" src="ads4.js"></script>
     <script type="text/javascript">
+      vast2.oncomplete = function() {
+        console.log('AD is completed!')
+      }
       vast2.load('https://koron.github.io/vast-test/vast/pixabay-7515.xml', true)
     </script>
   </body>
