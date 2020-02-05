@@ -197,10 +197,14 @@ function vast2onload(ev) {
   me.addEventListener('canplaythrough', function() {
     setupAd()
   })
-  me.onerror = function(ev) {
-    warnlog('mediaElement.onerror:', ev)
+  me.addEventListener('error', function(ev) {
+    warnlog('mediaElement.error:', ev)
     invokeEvent('error')
-  }
+  })
+  me.addEventListener('abort', function(ev) {
+    warnlog('mediaElement.abort:', ev)
+    invokeEvent('error')
+  })
 
   // set media to HTTPMediaElement.
   me.src = media.url
