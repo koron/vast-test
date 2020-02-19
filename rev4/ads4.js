@@ -37,7 +37,17 @@ function invokeEvent(name) {
     win.focus()
     return
   }
-  fetch(u) // XXX: IE doesn't support fetch.
+  fetchPolyfill(u)
+}
+
+function fetchPolyfill(u) {
+  if (!!w.fetch) {
+    w.fetch(u)
+  }
+  // IE polyfill for `fetch()`
+  let xhr = new XMLHttpRequest()
+  xhr.open("GET", u, true)
+  xhr.send(null)
 }
 
 function newInvokation(name) {
@@ -161,16 +171,57 @@ function setupAd() {
     updatePlayPause()
   })
 
-  new IntersectionObserver(function(entries, observer) {
-    if (entries.length == 0) {
-      return
-    }
-    visible = entries[0].intersectionRatio >= 0.5
+  observeVisibility(me, 0.5, function(result) {
+    visible = result
     if (vi) {
       vi.checked = visible
     }
     updatePlayPause()
-  }, { "threshold": 0.5 }).observe(me)
+  })
+}
+
+function observeVisibility(target, threshold, f) {
+  if (!!w.IntersectionObserver) {
+    new w.IntersectionObserver(function(entries, observer) {
+      if (entries.length == 0) {
+        return
+      }
+      f(entries[0].intersectionRatio >= threshold)
+    }, { "threshold": threshold }).observe(target)
+    return
+  }
+
+  let prevRatio = getVisibleRatio(target)
+  setInterval(function() {
+    let newRatio = getVisibleRatio(target)
+    if (newRatio == prevRatio) {
+      return
+    }
+    if (prevRatio >= threshold && newRatio < threshold) {
+      f(false)
+    } else if (prevRatio < threshold && newRatio >= threshold) {
+      f(true)
+    }
+    prevRatio = newRatio
+  }, 100)
+}
+
+function getVisibleRatio(target) {
+  if (w.getComputedStyle(target).display == 'none') {
+    return
+  }
+  let r = target.getBoundingClientRect()
+  let baseArea = r.width * r.height
+  if (baseArea == 0) {
+    return 0
+  }
+  let cw = Math.min(w.innerWidth, r.right) - Math.max(0, r.left)
+  let ch = Math.min(w.innerHeight, r.bottom) - Math.max(0, r.top)
+  let crossArea = 0
+  if (cw > 0 && ch > 0) {
+    crossArea = cw * ch
+  }
+  return crossArea / baseArea
 }
 
 function vast2load(u, eventlogFlag) {
@@ -223,7 +274,7 @@ function chooseMedia(dom, kbps) {
   if (!files) {
     return null
   }
-  let medias = Array.from(files.querySelectorAll('MediaFile')).map(toMedia).sort(mediaCompare)
+  let medias = arrayFrom(files.querySelectorAll('MediaFile')).map(toMedia).sort(mediaCompare)
   w.vast2.medias = medias
   if (medias.length == 0) {
     return null
@@ -236,6 +287,17 @@ function chooseMedia(dom, kbps) {
   }
   w.vast2.hitMedia = hit
   return hit
+}
+
+function arrayFrom(nodes) {
+  if (!!Array.from) {
+    return Array.from(nodes)
+  }
+  let rv = []
+  for (let i = 0; i < nodes.length; i++) {
+    rv.push(nodes[i])
+  }
+  return rv
 }
 
 function mediaCompare(a, b) {
