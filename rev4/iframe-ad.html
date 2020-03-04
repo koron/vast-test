@@ -21,9 +21,7 @@
 }
 </style>
 </head>
-  <body>
-    <a href="https://github.com/koron/vast-test"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_gray_6d6d6d.png" alt="Fork me on GitHub"></a>
-    <div style="height: 100vh"></div>
+  <body style="margin:0px;">
     <div id="mainContainer">
       <div id="content">
         <video id="mediaElement" muted></video>
@@ -31,6 +29,7 @@
     </div>
 
     <!-- #muteRequest checkbox, MANDATORY -->
+    <div>
     <label for="muteRequest">Mute</label><input type="checkbox" id="muteRequest" checked>
 
     <!-- #pauseRequest checkbox, MANDATORY -->
@@ -38,15 +37,8 @@
 
     <!-- #visibleIndicator checkbox, OPTIONAL: indicates over 50% visibility of video element -->
     <label for="visibleIndicator">Visible 50%</label><input type="checkbox" id="visibleIndicator" disabled>
+    </div>
 
-    <ul>
-      <li><a href="../">Regular version</a>
-      <li><a href="../modified.html">Modified version: hide "Learn More" link</a>
-      <li><a href="../rev3">Revision #3</a>
-      <li><a href=".">Revision #4 (this)</a>
-      <li><a href="./iframe-main.html">Revision #4 + IFARME</a>
-    </ul>
-    <div style="height: 100vh"></div>
     <script type="text/javascript" src="ads4.js"></script>
     <script type="text/javascript">
       vast2.oncomplete = function() {

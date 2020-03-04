@@ -191,19 +191,34 @@ function observeVisibility(target, threshold, f) {
     return
   }
 
-  let prevRatio = getVisibleRatio(target)
-  setInterval(function() {
-    let newRatio = getVisibleRatio(target)
-    if (newRatio == prevRatio) {
-      return
-    }
-    if (prevRatio >= threshold && newRatio < threshold) {
-      f(false)
-    } else if (prevRatio < threshold && newRatio >= threshold) {
-      f(true)
-    }
-    prevRatio = newRatio
-  }, 100)
+  var pinger = document.createElement('div')
+  pinger.setAttribute('style', 'position:absolute; left:0%; top:0%; width:100%; height:100%; z-index:-16777271;')
+  target.parentElement.insertBefore(pinger, target)
+  pinger.addEventListener('click', function(e){
+    e.stopPropagation()
+    e.preventDefault()
+    var outerHeight = window.outerHeight
+    var outerWidth = window.outerWidth
+    var isViewable = (outerHeight - (Math.abs(e.clientY) - window.screenY) > getWindowSize().innerHeight / 2
+      && window.screenY + e.clientY < 0
+      && outerWidth - (Math.abs(e.clientX) - window.screenX) > getWindowSize().innerWidth / 2
+      && window.screenX + e.clientX < getWindowSize().innerWidth / 2)
+    f(isViewable)
+  })
+  setInterval(function () { pinger.click() }, 100)
+}
+
+function getWindowSize() {
+  return null != self.window.innerWidth ? {
+    innerWidth: self.window.innerWidth,
+    innerHeight: self.window.innerHeight,
+  } : 'CSS1Compat' === self.document.compatMode ? {
+    innerWidth: self.document.documentElement.clientWidth,
+    innerHeight: self.document.documentElement.clientHeight,
+  } : {
+    innerWidth: self.document.body.clientWidth,
+    innerHeight: self.document.body.clientHeight,
+  }
 }
 
 function getVisibleRatio(target) {
